@@ -35,6 +35,9 @@ void enableRawMode() {
   raw.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);
   // Set character size to 8 bits
   raw.c_cflag |= (CS8);
+  // Set timeout for read() to return immediately
+  raw.c_cc[VMIN] = 0;
+  raw.c_cc[VTIME] = 1;
 
   // Apply changes
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
@@ -43,9 +46,15 @@ void enableRawMode() {
 int main() {
   enableRawMode();
 
-  char c;
-  // Read one byte at a time
-  while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') {
+  while (1) {
+    char c = '\0';
+    // Read 1 byte from standard input
+    read(STDIN_FILENO, &c, 1);
+
+    if (c == 'q') {
+      break;
+    }
+
     if (iscntrl(c)) {
       // Print control character
       printf("%d\r\n", c);
