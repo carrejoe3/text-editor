@@ -22,7 +22,10 @@ void enableRawMode() {
 
   // Disable IXON (software flow control)
   // Disable ICRNL (carriage return -> newline)
-  raw.c_iflag &= ~(IXON | ICRNL);
+  // Disable BRKINT (break condition)
+  // Disable INPCK (parity check)
+  // Disable ISTRIP (strip 8th bit)
+  raw.c_iflag &= ~(IXON | ICRNL | BRKINT | INPCK | ISTRIP);
   // Disable OPOST (output processing)
   raw.c_oflag &= ~(OPOST);
   // Disable ECHO (print input characters)
@@ -30,6 +33,8 @@ void enableRawMode() {
   // Disable ISIG (signals)
   // Disable IEXTEN (extended input processing)
   raw.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);
+  // Set character size to 8 bits
+  raw.c_cflag |= (CS8);
 
   // Apply changes
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
