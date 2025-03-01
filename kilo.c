@@ -25,7 +25,8 @@ void enableRawMode() {
   // Disable ECHO (print input characters)
   // Disable ICANON (canonical mode)
   // Disable ISIG (signals)
-  raw.c_lflag &= ~(ECHO | ICANON | ISIG);
+  // Disable IEXTEN (extended input processing)
+  raw.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);
 
   // Apply changes
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
