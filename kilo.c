@@ -19,7 +19,10 @@ void enableRawMode() {
 
   // Set raw mode
   struct termios raw = orig_termios;
-  raw.c_lflag &= ~(ECHO | ICANON);
+  // Disable ECHO (print input characters)
+  // Disable ICANON (canonical mode)
+  // Disable ISIG (signals)
+  raw.c_lflag &= ~(ECHO | ICANON | ISIG);
 
   // Apply changes
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
