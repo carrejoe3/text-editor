@@ -23,6 +23,8 @@ void enableRawMode() {
   // Disable IXON (software flow control)
   // Disable ICRNL (carriage return -> newline)
   raw.c_iflag &= ~(IXON | ICRNL);
+  // Disable OPOST (output processing)
+  raw.c_oflag &= ~(OPOST);
   // Disable ECHO (print input characters)
   // Disable ICANON (canonical mode)
   // Disable ISIG (signals)
