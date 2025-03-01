@@ -21,6 +21,7 @@ void enableRawMode() {
   struct termios raw = orig_termios;
   raw.c_lflag &= ~(ECHO | ICANON);
 
+  // Apply changes
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
@@ -28,10 +29,13 @@ int main() {
   enableRawMode();
 
   char c;
+  // Read one byte at a time
   while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') {
     if (iscntrl(c)) {
+      // Print control character
       printf("%d\n", c);
     } else {
+      // Print ASCII character
       printf("%d ('%c')\n", c, c);
     }
   }
