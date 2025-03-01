@@ -19,6 +19,9 @@ void enableRawMode() {
 
   // Set raw mode
   struct termios raw = orig_termios;
+
+  // Disable IXON (software flow control)
+  raw.c_iflag &= ~(IXON);
   // Disable ECHO (print input characters)
   // Disable ICANON (canonical mode)
   // Disable ISIG (signals)
